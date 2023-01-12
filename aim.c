@@ -55,6 +55,7 @@ uint crosshair = 1;
 uint hotkeys = 1;
 uint fnnenable = 1;
 uint speed = 1000;
+uint minimal = 0;
 
 // hyperparameters that you can change
 #define SCAN_VARIANCE 1.f           // how much to randomly wiggle the scan area between scans
@@ -2767,60 +2768,102 @@ void processScanArea(Window w)
 void reprint()
 {
     system("clear");
-    rainbow_line_printf("\033[1m>>> MegaStrog Triggerbot v4 by MegaStrog <<<\e[0m\n");
-    rainbow_line_printf("original code by the loser below\n");
-    rainbow_line_printf("James Cuckiam Fletcher (github.com/mrbid)\n\n");
-    rainbow_line_printf("L-CTRL + L-ALT = Toggle BOT ON/OFF\n");
-    rainbow_line_printf("R-CTRL + R-ALT = Toggle HOTKEYS ON/OFF\n");
-    rainbow_line_printf("P = Toggle crosshair.\n");
-    rainbow_line_printf("O = Toggle FNN.\n");
-    rainbow_line_printf("1-5 = Firing rate speeds.\n");
-    rainbow_line_printf("G = Get activation for reticule area.\n");
-    rainbow_line_printf("H = Hold pressed to print scans per second.\n");
-    rainbow_line_printf("\nDisable the game crosshair by enabling alpha and setting alpha to 0.\n");
-    rainbow_line_printf("> If your monitor provides a crosshair that will work fine.\n");
-    rainbow_line_printf("> OR make the crosshair a single green pixel.\n");
-    rainbow_line_printf("> OR just use the crosshair this bot provides.\n");
-    printf("\e[38;5;76m");
-    printf("\nThis bot will only auto trigger when W,A,S,D & L-SHIFT are not being pressed.\n(so when your not moving in game, aka stationary)\n\nL-SHIFT allows you to disable the bot while stationary if desired.\n\n");
-    printf("\e[38;5;123m");
 
-    if(twin != 0)
+    if(minimal == 0)
     {
-        printf("CS:GO Win: 0x%lX\n\n", twin);
+        rainbow_line_printf("\033[1m>>> MegaStrog Triggerbot v4 by MegaStrog <<<\e[0m\n");
+        rainbow_line_printf("original code by the loser below\n");
+        rainbow_line_printf("James Cuckiam Fletcher (github.com/mrbid)\n\n");
+        rainbow_line_printf("L-CTRL + L-ALT = Toggle BOT ON/OFF\n");
+        rainbow_line_printf("R-CTRL + R-ALT = Toggle HOTKEYS ON/OFF\n");
+        rainbow_line_printf("P = Toggle crosshair.\n");
+        rainbow_line_printf("O = Toggle FNN.\n");
+        rainbow_line_printf("1-5 = Firing rate speeds.\n");
+        rainbow_line_printf("G = Get activation for reticule area.\n");
+        rainbow_line_printf("H = Hold pressed to print scans per second.\n");
+        rainbow_line_printf("\nDisable the game crosshair by enabling alpha and setting alpha to 0.\n");
+        rainbow_line_printf("> If your monitor provides a crosshair that will work fine.\n");
+        rainbow_line_printf("> OR make the crosshair a single green pixel.\n");
+        rainbow_line_printf("> OR just use the crosshair this bot provides.\n");
+        printf("\e[38;5;76m");
+        printf("\nThis bot will only auto trigger when W,A,S,D & L-SHIFT are not being pressed.\n(so when your not moving in game, aka stationary)\n\nL-SHIFT allows you to disable the bot while stationary if desired.\n\n");
+        printf("\e[38;5;123m");
 
-        if(enable == 1)
-            rainbow_line_printf("BOT: \033[1m\e[32mON\e[0m\n");
-        else
-            rainbow_line_printf("BOT: \033[1m\e[31mOFF\e[0m\n");
+        if(twin != 0)
+        {
+            printf("CS:GO Win: 0x%lX\n\n", twin);
 
-        if(fnnenable == 1)
-            rainbow_line_printf("FNN: \033[1m\e[32mON\e[0m\n");
-        else
-            rainbow_line_printf("FNN: \033[1m\e[31mOFF\e[0m\n");
+            if(enable == 1)
+                rainbow_line_printf("BOT: \033[1m\e[32mON\e[0m\n");
+            else
+                rainbow_line_printf("BOT: \033[1m\e[31mOFF\e[0m\n");
 
-        if(speed == 6000)
-            rainbow_line_printf("SPEED: \033[1m\e[32m1\e[0m\n");
-        else if(speed == 2000)
-            rainbow_line_printf("SPEED: \033[1m\e[32m2\e[0m\n");
-        else if(speed == 1000)
-            rainbow_line_printf("SPEED: \033[1m\e[32m3\e[0m\n");
-        else if(speed == 500)
-            rainbow_line_printf("SPEED: \033[1m\e[32m4\e[0m\n");
-        else if(speed == 250)
-            rainbow_line_printf("SPEED: \033[1m\e[32m5\e[0m\n");
+            if(fnnenable == 1)
+                rainbow_line_printf("FNN: \033[1m\e[32mON\e[0m\n");
+            else
+                rainbow_line_printf("FNN: \033[1m\e[31mOFF\e[0m\n");
 
-        if(crosshair == 1)
-            rainbow_line_printf("CROSSHAIR: \033[1m\e[32mON\e[0m\n");
-        else
-            rainbow_line_printf("CROSSHAIR: \033[1m\e[31mOFF\e[0m\n");
+            if(speed == 6000)
+                rainbow_line_printf("SPEED: \033[1m\e[32m1\e[0m\n");
+            else if(speed == 2000)
+                rainbow_line_printf("SPEED: \033[1m\e[32m2\e[0m\n");
+            else if(speed == 1000)
+                rainbow_line_printf("SPEED: \033[1m\e[32m3\e[0m\n");
+            else if(speed == 500)
+                rainbow_line_printf("SPEED: \033[1m\e[32m4\e[0m\n");
+            else if(speed == 250)
+                rainbow_line_printf("SPEED: \033[1m\e[32m5\e[0m\n");
 
-        if(hotkeys == 1)
-            rainbow_line_printf("HOTKEYS: \033[1m\e[32mON\e[0m\n");
-        else
-            rainbow_line_printf("HOTKEYS: \033[1m\e[31mOFF\e[0m\n");
+            if(crosshair == 1)
+                rainbow_line_printf("CROSSHAIR: \033[1m\e[32mON\e[0m\n");
+            else
+                rainbow_line_printf("CROSSHAIR: \033[1m\e[31mOFF\e[0m\n");
 
-        printf("\n");
+            if(hotkeys == 1)
+                rainbow_line_printf("HOTKEYS: \033[1m\e[32mON\e[0m\n");
+            else
+                rainbow_line_printf("HOTKEYS: \033[1m\e[31mOFF\e[0m\n");
+
+            printf("\n");
+        }
+    }
+    else
+    {
+        if(twin != 0)
+        {
+            if(enable == 1)
+                rainbow_line_printf("BOT: \033[1m\e[32mON\e[0m | ");
+            else
+                rainbow_line_printf("BOT: \033[1m\e[31mOFF\e[0m | ");
+
+            if(fnnenable == 1)
+                rainbow_line_printf("FNN: \033[1m\e[32mON\e[0m | ");
+            else
+                rainbow_line_printf("FNN: \033[1m\e[31mOFF\e[0m | ");
+
+            if(speed == 6000)
+                rainbow_line_printf("SPEED: \033[1m\e[32m1\e[0m | ");
+            else if(speed == 2000)
+                rainbow_line_printf("SPEED: \033[1m\e[32m2\e[0m | ");
+            else if(speed == 1000)
+                rainbow_line_printf("SPEED: \033[1m\e[32m3\e[0m | ");
+            else if(speed == 500)
+                rainbow_line_printf("SPEED: \033[1m\e[32m4\e[0m | ");
+            else if(speed == 250)
+                rainbow_line_printf("SPEED: \033[1m\e[32m5\e[0m | ");
+
+            if(crosshair == 1)
+                rainbow_line_printf("CROSSHAIR: \033[1m\e[32mON\e[0m | ");
+            else
+                rainbow_line_printf("CROSSHAIR: \033[1m\e[31mOFF\e[0m | ");
+
+            if(hotkeys == 1)
+                rainbow_line_printf("HOTKEYS: \033[1m\e[32mON\e[0m");
+            else
+                rainbow_line_printf("HOTKEYS: \033[1m\e[31mOFF\e[0m");
+
+            fflush(stdout);
+        }
     }
 }
 
@@ -2830,6 +2873,9 @@ void reprint()
 int main(int argc, char *argv[])
 {
     srand(time(0));
+
+    // is minimal ui?
+    if(argc == 2){minimal = atoi(argv[1]) > 0 ? 1 : 0;} // hehe i rarily get to use the conditional if these days yay
 
     // intro
     reprint();
