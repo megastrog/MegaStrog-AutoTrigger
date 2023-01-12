@@ -8,6 +8,11 @@
 
     sudo apt install clang espeak libx11-dev
 
+    You can pass one argument to set the UI to minimal
+    by passing a 0-256 color number as the first argument:
+    https://www.ditig.com/256-colors-cheat-sheet
+    ./aim 1
+
 */
 
 #include <stdio.h>
@@ -2832,36 +2837,41 @@ void reprint()
         if(twin != 0)
         {
             if(enable == 1)
-                rainbow_line_printf("BOT: \033[1m\e[32mON\e[0m | ");
+                printf("\e[38;5;%umBOT: \033[1m\e[32mON\e[0m | ", minimal);
             else
-                rainbow_line_printf("BOT: \033[1m\e[31mOFF\e[0m | ");
+                printf("\e[38;5;%umBOT: \033[1m\e[31mOFF\e[0m | ", minimal);
 
             if(fnnenable == 1)
-                rainbow_line_printf("FNN: \033[1m\e[32mON\e[0m | ");
+                printf("\e[38;5;%umFNN: \033[1m\e[32mON\e[0m | ", minimal);
             else
-                rainbow_line_printf("FNN: \033[1m\e[31mOFF\e[0m | ");
+                printf("\e[38;5;%umFNN: \033[1m\e[31mOFF\e[0m | ", minimal);
 
             if(speed == 6000)
-                rainbow_line_printf("SPEED: \033[1m\e[32m1\e[0m | ");
+                printf("\e[38;5;%umSPEED: \033[1m\e[32m1\e[0m | ", minimal);
             else if(speed == 2000)
-                rainbow_line_printf("SPEED: \033[1m\e[32m2\e[0m | ");
+                printf("\e[38;5;%umSPEED: \033[1m\e[32m2\e[0m | ", minimal);
             else if(speed == 1000)
-                rainbow_line_printf("SPEED: \033[1m\e[32m3\e[0m | ");
+                printf("\e[38;5;%umSPEED: \033[1m\e[32m3\e[0m | ", minimal);
             else if(speed == 500)
-                rainbow_line_printf("SPEED: \033[1m\e[32m4\e[0m | ");
+                printf("\e[38;5;%umSPEED: \033[1m\e[32m4\e[0m | ", minimal);
             else if(speed == 250)
-                rainbow_line_printf("SPEED: \033[1m\e[32m5\e[0m | ");
+                printf("\e[38;5;%umSPEED: \033[1m\e[32m5\e[0m | ", minimal);
 
             if(crosshair == 1)
-                rainbow_line_printf("CROSSHAIR: \033[1m\e[32mON\e[0m | ");
+                printf("\e[38;5;%umCROSSHAIR: \033[1m\e[32mON\e[0m | ", minimal);
             else
-                rainbow_line_printf("CROSSHAIR: \033[1m\e[31mOFF\e[0m | ");
+                printf("\e[38;5;%umCROSSHAIR: \033[1m\e[31mOFF\e[0m | ", minimal);
 
             if(hotkeys == 1)
-                rainbow_line_printf("HOTKEYS: \033[1m\e[32mON\e[0m");
+                printf("\e[38;5;%umHOTKEYS: \033[1m\e[32mON\e[0m ", minimal);
             else
-                rainbow_line_printf("HOTKEYS: \033[1m\e[31mOFF\e[0m");
+                printf("\e[38;5;%umHOTKEYS: \033[1m\e[31mOFF\e[0m ", minimal);
 
+            fflush(stdout);
+        }
+        else
+        {
+            printf("\e[38;5;123mWaiting to detect CS:GO window.\e[0m");
             fflush(stdout);
         }
     }
@@ -2872,10 +2882,16 @@ void reprint()
 */
 int main(int argc, char *argv[])
 {
+    // seed random
     srand(time(0));
 
     // is minimal ui?
-    if(argc == 2){minimal = atoi(argv[1]) > 0 ? 1 : 0;} // hehe i rarily get to use the conditional if these days yay
+    if(argc == 2)
+    {
+        minimal = atoi(argv[1]);
+        if(minimal == 1){minimal = 8;}
+        else if(minimal == 8){minimal = 1;}
+    }
 
     // intro
     reprint();
