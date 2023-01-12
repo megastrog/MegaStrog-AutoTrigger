@@ -2737,33 +2737,20 @@ Window findWindow(Display *d, Window current, char const *needle)
     return ret;
 }
 
-#define _NET_WM_STATE_REMOVE        0    // remove/unset property
-#define _NET_WM_STATE_ADD           1    // add/set property
-#define _NET_WM_STATE_TOGGLE        2    // toggle property
-
+#define _NET_WM_STATE_REMOVE 0
+#define _NET_WM_STATE_ADD    1
+#define _NET_WM_STATE_TOGGLE 2 
 Bool MakeAlwaysOnTop(Display* display, Window root, Window mywin)
 {
     // https://stackoverflow.com/a/16235920
-    Atom wmStateAbove = XInternAtom( display, "_NET_WM_STATE_ABOVE", 1 );
-    if( wmStateAbove != None ){
-        printf( "_NET_WM_STATE_ABOVE has atom of %ld\n", (long)wmStateAbove );
-    } else {
-        printf( "ERROR: cannot find atom for _NET_WM_STATE_ABOVE !\n" );
-        return False;
-    }
-    
-    Atom wmNetWmState = XInternAtom( display, "_NET_WM_STATE", 1 );
-    if( wmNetWmState != None ) {
-        printf( "_NET_WM_STATE has atom of %ld\n", (long)wmNetWmState );
-    } else {
-        printf( "ERROR: cannot find atom for _NET_WM_STATE !\n" );
-        return False;
-    }
-
-    if( wmStateAbove != None )
+    Atom wmStateAbove = XInternAtom(display, "_NET_WM_STATE_ABOVE", 1);
+    if(wmStateAbove == None){return False;}
+    Atom wmNetWmState = XInternAtom(display, "_NET_WM_STATE", 1);
+    if(wmNetWmState == None){return False;}
+    if(wmStateAbove != None)
     {
         XClientMessageEvent xclient;
-        memset( &xclient, 0, sizeof (xclient) );
+        memset(&xclient, 0, sizeof(xclient));
         xclient.type = ClientMessage;
         xclient.window = mywin;
         xclient.message_type = wmNetWmState;
@@ -2773,15 +2760,10 @@ Bool MakeAlwaysOnTop(Display* display, Window root, Window mywin)
         xclient.data.l[2] = 0;
         xclient.data.l[3] = 0;
         xclient.data.l[4] = 0;
-        XSendEvent( display,
-          root,
-          False,
-          SubstructureRedirectMask | SubstructureNotifyMask,
-          (XEvent *)&xclient );
+        XSendEvent(display, root, False, SubstructureRedirectMask|SubstructureNotifyMask, (XEvent*)&xclient);
         XFlush(display);
         return True;
     }
-
     return False;
 }
 
