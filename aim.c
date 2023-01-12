@@ -2871,7 +2871,7 @@ void reprint()
         }
         else
         {
-            printf("\e[38;5;123mWaiting to detect CS:GO window.\e[0m");
+            printf("\e[38;5;123mPress \e[38;5;76mL-CTRL\e[38;5;123m + \e[38;5;76mL-ALT\e[38;5;123m to enable bot.\e[0m");
             fflush(stdout);
         }
     }
@@ -2945,7 +2945,16 @@ int main(int argc, char *argv[])
                 twin = findWindow(d, 0, "Counter-Strike");
                 if(twin == 0)
                 {
-                    printf("Failed to detect a CS:GO window.\n");
+                    if(minimal == 0)
+                    {
+                        printf("Failed to detect a CS:GO window.\n");
+                    }
+                    else
+                    {
+                        system("clear");
+                        printf("Failed to detect a CS:GO window.");
+                        fflush(stdout);
+                    }
                     sleep(1);
                     continue;
                 }
