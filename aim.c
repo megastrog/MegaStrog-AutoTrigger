@@ -6,7 +6,7 @@
     
     You may want to install espeak via your package manager.
 
-    sudo apt install clang espeak libx11-dev
+    sudo apt install clang espeak libx11-dev libxdo-dev
 
     You can pass one argument to set the UI to minimal
     by passing a 0-256 color number as the first argument:
@@ -29,6 +29,8 @@
 #include <sys/time.h>
 #include <sys/stat.h>
 
+#include <xdo.h>
+
 #include "./include/k2c_include.h" 
 #include "./include/k2c_tensor_include.h" 
 
@@ -49,6 +51,7 @@ float input[r2] = {0};
 Display *d;
 int si;
 Window twin = 0;
+Window this_win = 0;
 GC gc = 0;
 
 char targets_dir[256];
@@ -2734,6 +2737,54 @@ Window findWindow(Display *d, Window current, char const *needle)
     return ret;
 }
 
+#define _NET_WM_STATE_REMOVE        0    // remove/unset property
+#define _NET_WM_STATE_ADD           1    // add/set property
+#define _NET_WM_STATE_TOGGLE        2    // toggle property
+
+Bool MakeAlwaysOnTop(Display* display, Window root, Window mywin)
+{
+    // https://stackoverflow.com/a/16235920
+    Atom wmStateAbove = XInternAtom( display, "_NET_WM_STATE_ABOVE", 1 );
+    if( wmStateAbove != None ){
+        printf( "_NET_WM_STATE_ABOVE has atom of %ld\n", (long)wmStateAbove );
+    } else {
+        printf( "ERROR: cannot find atom for _NET_WM_STATE_ABOVE !\n" );
+        return False;
+    }
+    
+    Atom wmNetWmState = XInternAtom( display, "_NET_WM_STATE", 1 );
+    if( wmNetWmState != None ) {
+        printf( "_NET_WM_STATE has atom of %ld\n", (long)wmNetWmState );
+    } else {
+        printf( "ERROR: cannot find atom for _NET_WM_STATE !\n" );
+        return False;
+    }
+
+    if( wmStateAbove != None )
+    {
+        XClientMessageEvent xclient;
+        memset( &xclient, 0, sizeof (xclient) );
+        xclient.type = ClientMessage;
+        xclient.window = mywin;
+        xclient.message_type = wmNetWmState;
+        xclient.format = 32;
+        xclient.data.l[0] = _NET_WM_STATE_ADD;
+        xclient.data.l[1] = wmStateAbove;
+        xclient.data.l[2] = 0;
+        xclient.data.l[3] = 0;
+        xclient.data.l[4] = 0;
+        XSendEvent( display,
+          root,
+          False,
+          SubstructureRedirectMask | SubstructureNotifyMask,
+          (XEvent *)&xclient );
+        XFlush(display);
+        return True;
+    }
+
+    return False;
+}
+
 void processScanArea(Window w)
 {
     // get image block
@@ -2910,6 +2961,17 @@ int main(int argc, char *argv[])
                 return 0;
             }
         }
+    }
+
+    // xdo it
+    if(minimal > 0)
+    {
+        xdo_t* xdo;
+        xdo = xdo_new_with_opened_display(d, NULL, 0);
+        xdo_get_active_window(xdo, &this_win);
+        xdo_set_window_property(xdo, this_win, "WM_NAME", "MegaStrogV4");
+        xdo_set_window_size(xdo, this_win, 600, 1, 0);
+        MakeAlwaysOnTop(d, XDefaultRootWindow(d), this_win);
     }
 
     // get default screen
