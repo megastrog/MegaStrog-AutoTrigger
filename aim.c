@@ -3039,7 +3039,11 @@ int main(int argc, char *argv[])
             if(microtime() - st >= 1000000)
             {
                 if(key_is_pressed(XK_H))
-                    printf("\e[36mSPS: %u\e[0m\n", sps);
+                {
+                    if(minimal > 0){system("clear");}
+                    printf("\e[36mSPS: %u\e[0m", sps);
+                    if(minimal == 0){printf("\n");}else{fflush(stdout);}
+                }
                 sps = 0;
                 st = microtime();
             }
@@ -3143,7 +3147,10 @@ int main(int argc, char *argv[])
                 {
                     if(ret > ACTIVATION_SENITIVITY)
                     {
-                        printf("\e[93mA: %f\e[0m\n", ret);
+                        if(minimal > 0){system("clear");}
+                        printf("\e[93mA: %f\e[0m", ret);
+                        if(minimal == 0){printf("\n");}else{fflush(stdout);}
+
                         XSetForeground(d, gc, 65280);
                         XDrawRectangle(d, event.xbutton.window, gc, x-rd2-1, y-rd2-1, r0+2, r0+2);
                         XSetForeground(d, gc, 0);
@@ -3153,7 +3160,9 @@ int main(int argc, char *argv[])
                     else
                     {
                         const uint s = (uint)((1.f-ret)*255.f);
-                        printf("\x1b[38;2;255;%u;%um A: %f\n", s, s, ret);
+                        if(minimal > 0){system("clear");}
+                        printf("\x1b[38;2;255;%u;%um A: %f", s, s, ret);
+                        if(minimal == 0){printf("\n");}else{fflush(stdout);}
                         XSetForeground(d, gc, 16711680);
                         XDrawRectangle(d, event.xbutton.window, gc, x-rd2-1, y-rd2-1, r0+2, r0+2);
                         XSetForeground(d, gc, 0);
