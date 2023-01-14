@@ -71,7 +71,6 @@ uint minimal = 0;
 #define ACTIVATION_SENITIVITY 0.98f // minimum activation sensitivity to fire a shot
 #define REPEAT_ACTIVATION 0         // how many positive activations in a row before firing a shot
 #define FIRE_RATE_LIMIT_MS 100      // delay between firing shots in milliseconds
-#define TRIGGER_RATE_LIMIT_MS 30    // delay between firing shots between TRIGGER iterations in milliseconds
 
 /***************************************************
    ~~ DENSE Neural Network Forward-Pass
