@@ -22,7 +22,6 @@
 #include <string.h>
 #include <unistd.h>
 
-#include <unistd.h>
 #include <stdint.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -66,7 +65,7 @@ uint speed = 1000;
 uint minimal = 0;
 
 // hyperparameters that you can change
-#define SCAN_VARIANCE 1.f           // how much to randomly wiggle the scan area between scans
+//#define SCAN_VARIANCE 1.f           // how much to randomly wiggle the scan area between scans
 #define SCAN_DELAY 1000             // scan frequency delay in microseconds
 #define ACTIVATION_SENITIVITY 0.98f // minimum activation sensitivity to fire a shot
 #define REPEAT_ACTIVATION 0         // how many positive activations in a row before firing a shot
