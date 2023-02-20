@@ -69,7 +69,7 @@ uint minimal = 0;
 #define SCAN_DELAY 1000             // scan frequency delay in microseconds
 #define ACTIVATION_SENITIVITY 0.98f // minimum activation sensitivity to fire a shot
 #define REPEAT_ACTIVATION 0         // how many positive activations in a row before firing a shot
-#define FIRE_RATE_LIMIT_MS 100      // delay between firing shots in milliseconds
+#define FIRE_RATE_LIMIT_MS 190      // delay between firing shots in milliseconds
 
 /***************************************************
    ~~ DENSE Neural Network Forward-Pass
@@ -3208,7 +3208,7 @@ int main(int argc, char *argv[])
                             if(speed == 6000)
                                 usleep(300000);
                             else
-                                usleep(100000);
+                                usleep(10000);
                             
                             // release mouse down
                             event.type = ButtonRelease;
