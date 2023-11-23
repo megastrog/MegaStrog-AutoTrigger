@@ -13,6 +13,9 @@
     https://www.ditig.com/256-colors-cheat-sheet
     ./aim 1
 
+    IN THIS VERSION THE WINDOW DETECTION HAS BEEN FIXED
+    TO WORK WITH COUNTER-STRIKE 2.
+
 */
 
 #include <stdio.h>
